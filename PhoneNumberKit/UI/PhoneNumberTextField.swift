@@ -26,7 +26,6 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
     public lazy var textFieldLeftView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .gray
         return view
     }()
 

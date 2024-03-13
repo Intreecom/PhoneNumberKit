@@ -17,6 +17,19 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
 
     public lazy var flagButton = UIButton()
 
+    public lazy var lblCountryCode: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    public lazy var textFieldLeftView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .gray
+        return view
+    }()
+
     /// Override setText so number will be automatically formatted when setting text by code
     override open var text: String? {
         set {
@@ -286,6 +299,22 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         self.autocorrectionType = .no
         self.keyboardType = .phonePad
         super.delegate = self
+        setupLeftView()
+    }
+
+    func setupLeftView() {
+        flagButton.translatesAutoresizingMaskIntoConstraints = false
+        textFieldLeftView.addSubview(flagButton)
+        textFieldLeftView.addSubview(lblCountryCode)
+        textFieldLeftView.backgroundColor = .cyan
+        NSLayoutConstraint.activate([
+            lblCountryCode.leadingAnchor.constraint(equalTo: textFieldLeftView.leadingAnchor, constant: 16),
+            lblCountryCode.topAnchor.constraint(equalTo: textFieldLeftView.topAnchor),
+            lblCountryCode.bottomAnchor.constraint(equalTo: textFieldLeftView.bottomAnchor),
+            flagButton.leadingAnchor.constraint(equalTo: lblCountryCode.trailingAnchor, constant: 10),
+            flagButton.trailingAnchor.constraint(equalTo: textFieldLeftView.trailingAnchor, constant: -10),
+            flagButton.centerYAnchor.constraint(equalTo: textFieldLeftView.centerYAnchor)
+        ])
     }
 
     func internationalPrefix(for countryCode: String) -> String? {
@@ -311,7 +340,11 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
             .unicodeScalars
             .compactMap { UnicodeScalar(flagBase + $0.value)?.description }
             .joined()
-
+        if let countryCode = self.phoneNumberKit.countryCode(for: self.defaultRegion) {
+            self.lblCountryCode.text = "+\(countryCode)"
+        } else {
+            self.lblCountryCode.text = ""
+        }
         self.flagButton.setTitle(flag + " ", for: .normal)
         self.flagButton.accessibilityLabel = NSLocalizedString(
             "PhoneNumberKit.CountryCodePickerEntryButton.AccessibilityLabel",

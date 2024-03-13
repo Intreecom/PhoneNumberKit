@@ -305,7 +305,6 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         flagButton.translatesAutoresizingMaskIntoConstraints = false
         textFieldLeftView.addSubview(flagButton)
         textFieldLeftView.addSubview(lblCountryCode)
-        textFieldLeftView.backgroundColor = .cyan
         NSLayoutConstraint.activate([
             lblCountryCode.leadingAnchor.constraint(equalTo: textFieldLeftView.leadingAnchor, constant: 16),
             lblCountryCode.topAnchor.constraint(equalTo: textFieldLeftView.topAnchor),

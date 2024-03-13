@@ -88,7 +88,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
 
     public var withFlag: Bool = false {
         didSet {
-            leftView = self.withFlag ? self.flagButton : nil
+            leftView = self.withFlag ? self.textFieldLeftView : nil
             leftViewMode = self.withFlag ? .always : .never
             self.updateFlag()
         }
